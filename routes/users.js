@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
 
     jwt.sign(
       payload,
-      process.env.jwtSecret,
+      process.env.TOKEN_SECRET,
       {
         // Signing a token with 1 hour of expiration:
         expiresIn: '1h',
