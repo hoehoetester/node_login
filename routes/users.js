@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 
@@ -42,7 +43,29 @@ router.post('/', async (req, res) => {
 
     await user.save();
 
-    res.send('User saved' + user);
+    const payload = {
+      user: {
+        id: user._id,
+      },
+    };
+
+    jwt.sign(
+      payload,
+      process.env.jwtSecret,
+      {
+        // Signing a token with 1 hour of expiration:
+        expiresIn: '1h',
+      },
+      (err, token) => {
+        if (err) {
+          throw err;
+        }
+
+        res.json({ token });
+      }
+    );
+
+    // res.send('User saved' + user);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');
