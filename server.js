@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const PORT = process.env.PORT || 5000;
+const connectDB = require('./db');
 
 const app = express();
 
@@ -12,6 +13,9 @@ app.use('/api/contacts', require('./routes/contacts'));
 app.get('/api', (req, res) => {
   res.send('Hello World!');
 });
+
+// Connect Database
+connectDB();
 
 app.listen(PORT, () =>
   console.log(
