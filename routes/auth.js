@@ -3,7 +3,7 @@ const Joi = require('@hapi/joi');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const auth = require('../middleware/auth');
+const verifyToken = require('../middleware/verifyToken');
 
 const schema = Joi.object({
   email: Joi.string().email().required(),
@@ -15,7 +15,7 @@ const schema = Joi.object({
  * @desc   Get logged in user
  * @access Private
  */
-router.get('/', auth, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     res.json({ user });
