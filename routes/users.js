@@ -12,12 +12,14 @@ const schema = Joi.object({
 });
 
 /**
- * @route  POST api/user
+ * @route  POST api/users
  * @desc   Register a user
  * @access Public
  */
 router.post('/', async (req, res) => {
   // res.send('Register a user');
+  console.log(req.body);
+
   const { error } = await schema.validate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);

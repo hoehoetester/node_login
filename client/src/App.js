@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 import './App.css';
 
 function App() {
   const [name, setName] = useState('nnn');
-  const [email, setEmail] = useState('eee');
+  const [email, setEmail] = useState('email@test.com');
   const [password, setPassword] = useState('ppp');
 
   const onNameChange = (e) => {
@@ -22,6 +23,14 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(name, email, password);
+    // axios.get('/api').then((res) => console.log(res));
+
+    const userToRegister = {
+      name,
+      email,
+      password,
+    };
+    axios.post('/api/users', userToRegister).then((res) => console.log(res));
   };
   return (
     <div className='App'>
